@@ -147,129 +147,140 @@ function App() {
             }
 
             // Generate AI Response
+            // Generate AI Response (Premium UI)
             const aiContent = (
                 <div>
-                    <p style={{ marginBottom: '1rem', lineHeight: '1.6' }}>I've completed a comprehensive analysis of the CV against the job description. Here are the results:</p>
+                    <p style={{ marginBottom: '1.25rem', lineHeight: '1.6', color: '#ECECF1' }}>
+                        I've completed a comprehensive analysis of the CV against the job description. Here are the results:
+                    </p>
 
-                    <div className="result-card" style={{ border: '1px solid #4d4d4f', paddingBottom: 0, overflow: 'hidden' }}>
+                    <div className="result-card">
                         {/* 1. Header Section */}
-                        <div style={{
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                            padding: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)'
-                        }}>
-                            <div>
-                                <div style={{ fontSize: '2.5rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.25rem', color: scoreColor }}>
-                                    {result.match_score}
+                        {/* 1. Header Section (V2 Radial) */}
+                        <div className="analysis-header">
+                            <div className="score-container">
+                                {/* Radial Gauge */}
+                                <div className="radial-wrapper">
+                                    <svg width="100" height="100">
+                                        <circle className="radial-bg" cx="50" cy="50" r="40" />
+                                        <circle
+                                            className="radial-progress"
+                                            cx="50"
+                                            cy="50"
+                                            r="40"
+                                            stroke={scoreColor}
+                                            strokeDasharray={2 * Math.PI * 40}
+                                            strokeDashoffset={(2 * Math.PI * 40) - ((scoreVal / 100) * (2 * Math.PI * 40))}
+                                        />
+                                    </svg>
+                                    <div className="radial-text">
+                                        <span className="radial-score" style={{ color: scoreColor }}>{scoreVal}</span>
+                                        <span className="radial-percent">%</span>
+                                    </div>
                                 </div>
-                                <div style={{ textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em', color: '#C5C5D2', fontWeight: 600 }}>Match Level: {result.match_level}</div>
+
+                                <div className="header-details">
+                                    <span className="match-level-badge" style={{ color: scoreColor, background: `${scoreColor}20` }}>
+                                        {result.match_level}
+                                    </span>
+                                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FFF' }}>
+                                        {result.summary_title}
+                                    </div>
+                                </div>
                             </div>
+
                             <div style={{ textAlign: 'right' }}>
-                                <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#f7f7f8' }}>{result.summary_title}</div>
-                                <div style={{ fontSize: '0.9rem', color: '#c5c5d2' }}>Based on keyword & skill analysis</div>
+                                <div style={{
+                                    display: 'inline-block', padding: '6px 12px', background: '#343541',
+                                    borderRadius: '20px', fontSize: '0.75rem', color: '#8E8EA0', fontWeight: 600
+                                }}>
+                                    Algorithm v2.1
+                                </div>
                             </div>
                         </div>
 
                         {/* 2. Summary & Analysis */}
-                        <div style={{ padding: '1.5rem' }}>
-                            <div style={{ marginBottom: '1.5rem' }}>
-                                <h4 style={{ fontSize: '0.9rem', color: '#C5C5D2', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>Summary</h4>
-                                <p style={{ lineHeight: '1.6', color: '#ECECF1' }}>{result.overall_summary}</p>
+                        <div className="analysis-body">
+                            <div style={{ marginBottom: '2rem' }}>
+                                <h4 className="section-title"><FileText size={14} /> Executive Summary</h4>
+                                <p style={{ lineHeight: '1.7', color: '#D1D5DB', fontSize: '1.05rem' }}>{result.overall_summary}</p>
                             </div>
 
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
                                 {/* Strong Matches */}
                                 <div>
-                                    <h4 style={{ fontSize: '0.9rem', color: '#10a37f', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
-                                        Strong Matches ({result.matched_skills.length})
+                                    <h4 className="section-title" style={{ color: '#10a37f' }}>
+                                        <CheckCircle size={14} /> Strong Matches
                                     </h4>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                                         {result.matched_skills.map(s => (
-                                            <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#ECECF1' }}>
-                                                <CheckCircle size={14} color="#10a37f" />
-                                                <span style={{ textTransform: 'capitalize' }}>{s} <span style={{ color: '#6e6e80', fontSize: '0.85rem' }}>(Technical Skill)</span></span>
-                                            </div>
+                                            <span key={s} style={{
+                                                background: 'rgba(16, 163, 127, 0.15)', color: '#69f0ae',
+                                                border: '1px solid rgba(16, 163, 127, 0.3)',
+                                                padding: '4px 10px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: 500
+                                            }}>
+                                                {s}
+                                            </span>
                                         ))}
-                                        {result.matched_skills.length === 0 && <span style={{ fontSize: '0.9rem', fontStyle: 'italic', color: '#666' }}>No specific matches found.</span>}
+                                        {result.matched_skills.length === 0 && <span style={{ color: '#666' }}>No direct matches.</span>}
                                     </div>
                                 </div>
 
                                 {/* Missing Requirements */}
                                 <div>
-                                    <h4 style={{ fontSize: '0.9rem', color: '#ef4146', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
-                                        Missing Key Requirements ({result.missing_skills.length})
+                                    <h4 className="section-title" style={{ color: '#ef4146' }}>
+                                        <AlertCircle size={14} /> Missing / Gaps
                                     </h4>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                                         {result.missing_skills.map(s => (
-                                            <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#ECECF1' }}>
-                                                <AlertCircle size={14} color="#ef4146" />
-                                                <span style={{ textTransform: 'capitalize' }}>{s}</span>
+                                            <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#ffcdd2' }}>
+                                                <span style={{ width: '4px', height: '4px', background: '#ef4146', borderRadius: '50%' }}></span>
+                                                <span>{s}</span>
                                             </div>
                                         ))}
-                                        {result.missing_skills.length > 0 && (
-                                            <p style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: '#ef4146', fontStyle: 'italic' }}>
-                                                These skills are required by the JD but not found in the CV.
-                                            </p>
-                                        )}
-                                        {result.missing_skills.length === 0 && <span style={{ fontSize: '0.9rem', fontStyle: 'italic', color: '#666' }}>No Missing Skills found.</span>}
+                                        {result.missing_skills.length === 0 && <span style={{ color: '#666' }}>No critical gaps found.</span>}
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Additional Strengths */}
-                            {result.additional_strengths && result.additional_strengths.length > 0 && (
-                                <div style={{ marginTop: '2rem' }}>
-                                    <h4 style={{ fontSize: '0.9rem', color: '#C5C5D2', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
-                                        Additional Strengths ({result.additional_strengths.length})
-                                    </h4>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                        {result.additional_strengths.map(s => (
-                                            <span key={s} style={{
-                                                background: '#2A2B32', border: '1px solid #565869',
-                                                padding: '4px 10px', borderRadius: '15px', fontSize: '0.85rem', color: '#ECECF1', textTransform: 'capitalize'
-                                            }}>{s}</span>
-                                        ))}
-                                    </div>
+                            {/* Experience Analysis - Special Feature Box */}
+                            <div className="experience-box">
+                                <BarChart2 size={24} color="#10a37f" style={{ marginTop: '0.25rem', flexShrink: 0 }} />
+                                <div>
+                                    <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: '#10a37f', fontWeight: 700, marginBottom: '0.25rem' }}>Experience Relevance</div>
+                                    <div style={{ fontSize: '0.95rem' }}>{result.experience_relevance}</div>
                                 </div>
-                            )}
-
-                            {/* Experience Analysis */}
-                            <div style={{ marginTop: '2rem' }}>
-                                <h4 style={{ fontSize: '0.9rem', color: '#C5C5D2', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>Experience Analysis</h4>
-                                <p style={{ background: '#2A2B32', padding: '1rem', borderRadius: '6px', color: '#ECECF1', borderLeft: '4px solid #10a37f' }}>
-                                    {result.experience_relevance}
-                                </p>
                             </div>
                         </div>
 
-                        {/* 3. Recommendations Footer */}
-                        <div style={{ background: '#2A2B32', borderTop: '1px solid #4d4d4f', padding: '1.5rem' }}>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+                        {/* 3. Recommendations Footer (Split Columns) */}
+                        <div className="rec-footer">
+                            <div className="rec-grid">
                                 {/* Candidate Recs */}
-                                <div>
-                                    <h4 style={{ fontSize: '0.9rem', color: '#C5C5D2', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem' }}>Recommendations for Candidate</h4>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                <div className="rec-column">
+                                    <h4 className="section-title" style={{ color: '#A78BFA' }}>
+                                        <User size={14} /> Recommendation for Candidate
+                                    </h4>
+                                    <div>
                                         {result.candidate_recommendations && result.candidate_recommendations.map((rec, idx) => (
-                                            <div key={idx} style={{ display: 'flex', gap: '0.75rem' }}>
-                                                <div style={{
-                                                    background: '#343541', color: '#c5c5d2', width: '20px', height: '20px', borderRadius: '50%',
-                                                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', flexShrink: 0, fontWeight: 'bold'
-                                                }}>{idx + 1}</div>
-                                                <span style={{ fontSize: '0.9rem', color: '#ECECF1' }}>{rec}</span>
+                                            <div key={idx} className="rec-item">
+                                                <div className="rec-number">{idx + 1}</div>
+                                                <span className="rec-text">{rec}</span>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
+
                                 {/* Recruiter Recs */}
-                                <div>
-                                    <h4 style={{ fontSize: '0.9rem', color: '#C5C5D2', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem' }}>Recommendations for Recruiter</h4>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                <div className="rec-column">
+                                    <h4 className="section-title" style={{ color: '#FBBF24' }}>
+                                        <Settings size={14} /> Recommendation for Recruiter
+                                    </h4>
+                                    <div>
                                         {result.recruiter_recommendations && result.recruiter_recommendations.map((rec, idx) => (
-                                            <div key={idx} style={{ display: 'flex', gap: '0.75rem' }}>
-                                                <div style={{
-                                                    background: '#343541', color: '#c5c5d2', width: '20px', height: '20px', borderRadius: '50%',
-                                                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', flexShrink: 0, fontWeight: 'bold'
-                                                }}>{idx + 1}</div>
-                                                <span style={{ fontSize: '0.9rem', color: '#ECECF1' }}>{rec}</span>
+                                            <div key={idx} className="rec-item">
+                                                <div className="rec-number">{idx + 1}</div>
+                                                <span className="rec-text">{rec}</span>
                                             </div>
                                         ))}
                                     </div>

@@ -29,7 +29,7 @@ def analyze_match(cv_text, jd_text):
     
     # Simple scoring logic
     if not jd_skills:
-        score = 50 
+        score = 0 
     else:
         score = int((len(matched_skills) / len(jd_skills)) * 100)
     

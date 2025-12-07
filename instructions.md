@@ -1,57 +1,103 @@
-# Project Setup Instructions
+# Project Setup & Execution Guide
 
-This project contains a full-stack application for HR CV-JD Matching.
+This document provides a comprehensive, step-by-step guide to setting up and running the **HR CV-JD Match Assistant** project on a local machine.
 
-## Prerequisites
-- **Python**: Required for the backend. Please install Python 3.8+ and ensure it's in your system PATH.
-- **Node.js**: Required for the frontend. You have Node installed (v24.11.1).
+## 1. Prerequisites
+Before starting, ensure you have the following installed:
+*   **Python (3.8+)**: [Download Here](https://www.python.org/downloads/)
+    *   *Verify*: `python --version`
+*   **Node.js (16+)**: [Download Here](https://nodejs.org/)
+    *   *Verify*: `node --version`
 
-## Backend Setup (Django)
+---
 
-1.  Open a terminal in the `backend` directory.
-2.  Create a virtual environment (optional but recommended):
+## 2. Project Structure
+The project is split into two distinct parts:
+*   `backend/`: A Django (Python) server that handles the AI matching logic and API.
+*   `frontend/`: A React (Vite) web application that provides the user interface.
+
+---
+
+## 3. Backend Setup (Django)
+*This handles the logic and data processing.*
+
+1.  **Open Terminal**: Navigate to the project root folder (`PBSE`).
+2.  **Navigate to Backend**:
+    ```bash
+    cd backend
+    ```
+3.  **Create Virtual Environment** (Recommended):
     ```bash
     python -m venv venv
-    .\venv\Scripts\activate
     ```
-3.  Install dependencies:
+4.  **Activate Virtual Environment**:
+    *   **Windows**:
+        ```bash
+        .\venv\Scripts\activate
+        ```
+    *   **Mac/Linux**:
+        ```bash
+        source venv/bin/activate
+        ```
+5.  **Install Dependencies**:
     ```bash
     pip install -r requirements.txt
     ```
-    *Note: If `pip` fails, ensure Python is correctly installed and added to PATH.*
-4.  Run migrations:
+6.  **Run Migrations** (Initialize Database):
     ```bash
     python manage.py migrate
     ```
-5.  Start the server:
+7.  **Start the Server**:
     ```bash
     python manage.py runserver
     ```
-    The API will be available at `http://127.0.0.1:8000/`.
+    ✅ **Success**: You should see `Starting development server at http://127.0.0.1:8000/`.
 
-## Frontend Setup (React + Vite)
+---
 
-1.  Open a terminal in the `frontend` directory.
-2.  Install dependencies:
+## 4. Frontend Setup (React)
+*This is the visual interface you interact with.*
+
+1.  **Open a New Terminal**: Keep the backend terminal running and open a new window.
+2.  **Navigate to Frontend**:
+    ```bash
+    cd frontend
+    ```
+3.  **Install Node Modules**:
     ```bash
     npm install
     ```
-    *Note: If you encounter execution policy errors with PowerShell, try running this in Command Prompt (cmd) or Git Bash, or set the execution policy:*
-    ```powershell
-    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-    ```
-3.  Start the development server:
+4.  **Start the Web Server**:
     ```bash
     npm run dev
     ```
-4.  Open your browser to the URL shown (usually `http://localhost:5173`).
+    ✅ **Success**: You should see `Local: http://localhost:5173/`.
 
-## Usage
+---
 
-1.  Navigate to the "CV Match" tab.
-2.  Paste a Job Description (JD) text.
-3.  Paste a Candidate CV text.
-4.  Click "Analyze Match".
-5.  View the Match Score, Matched Skills, and Missing Skills.
+## 5. How to Use
+1.  Open your browser to **[http://localhost:5173](http://localhost:5173)**.
+2.  You will see the **Chat Interface**.
+3.  **Input Data**:
+    *   **Job Description**: Upload a file or click "Text" to paste the job requirements.
+    *   **CV**: Upload a resume or click "Text" to paste the candidate's details.
+4.  Click **Analyze**.
+5.  Review the **Match Score**, **Missing Skills**, and **Recommendations**.
 
-*Note: The frontend includes a demonstration mode that works even if the backend is not running, using simple keyword matching in the browser.*
+---
+
+## 6. Troubleshooting
+
+### "Script is disabled" error in PowerShell
+If you see an error about execution policies when activating the venv:
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+### "Module not found"
+Ensure you activated the virtual environment (`.\venv\Scripts\activate`) *before* running `pip install` or `python manage.py`.
+
+### "Network Error" in Frontend
+This means the React app cannot talk to the Django app.
+*   Ensure the Backend terminal is still running.
+*   Check that the backend is on port `8000` and frontend on `5173`.

@@ -1,50 +1,67 @@
-# UI Sketch & Vision
+# UI Sketch & Vision (Revised)
 
 ## 1. Visualizing the Final Product
 
-Below is a low-fidelity wireframe representation of the **"Pro"** version of the CV-JD Match Assistant dashboard.
+Below is a low-fidelity wireframe representation of the **Chat-based Interface** currently implemented for the CV-JD Match Assistant.
 
 ```text
-+----------------------------------------------------------------------------------+
-|  [LOGO] SmartRecruit                                   [User Profile] [Settings] |
-+----------------------------------------------------------------------------------+
-|  MENU         |  DASHBOARD > MATCH ANALYSIS                                      |
-|               |                                                                  |
-|  [Dashboard]  |  +-------------------------------------+  +-------------------+  |
-|  [My Jobs]    |  | JOB DESCRIPTION (JD)                |  | CANDIDATE CV      |  |
-|  [Candidates] |  | [ Drop file or Paste text         ] |  | [ Drop PDF/Docx ] |  |
-|  [Reports]    |  | "Senior Python Dev..."            |  | "John Doe..."     |  |
-|  [Archive]    |  +-------------------------------------+  +-------------------+  |
-|               |                                                                  |
-|               |            [  ANALYZE MATCH BUTTON (Processing...)  ]            |
-|               |                                                                  |
-+---------------+------------------------------------------------------------------+
-|               |  RESULTS PANEL                                                   |
-|               |  +---------------------+  +-----------------------------------+  |
-|               |  |  MATCH SCORE        |  |  DETAILED ANALYSIS                |  |
-|               |  |      /```\          |  |                                   |  |
-|               |  |     ( 88% )         |  |  [+] MATCHED SKILLS (Green)       |  |
-|               |  |      \___/          |  |      • Python, Django, AWS        |  |
-|               |  |   [HIGH MATCH]      |  |                                   |  |
-|               |  |                     |  |  [-] MISSING / CRITICAL (Red)     |  |
-|               |  |  Experience: 5/5y   |  |      • Kubernetes                 |  |
-|               |  |  Education: Match   |  |                                   |  |
-|               |  +---------------------+  |  [?] RECOMMENDATION               |  |
-|               |                           |  "Interview. Strong tech fit."    |  |
-|               |                           +-----------------------------------+  |
-+----------------------------------------------------------------------------------+
++---------------------+------------------------------------------------------------------+
+| [LOGO] SmartRecruit |  CURRENT CHAT: 85% - Senior Python Dev...                        |
++---------------------+------------------------------------------------------------------+
+|                     |                                                                  |
+|  + NEW ANALYSIS     |  [ AI ]                                                          |
+|                     |   I've completed the analysis. Here are the results:             |
+|  HISTORY            |                                                                  |
+|  -----------------  |   +----------------------------------------------------------+   |
+|  > 85% - Python...  |   |  92%  |  STRONG MATCH                                    |   |
+|  > 42% - Java Dev   |   | [GREEN]                                                  |   |
+|  > 70% - FullStack  |   |                                                          |   |
+|                     |   |  SUMMARY: Strong technical fit. Meets all core reqs.     |   |
+|                     |   |                                                          |   |
+|                     |   |  [+] STRONG MATCHES (Green)                              |   |
+|                     |   |      • Python, Django, AWS, Docker                       |   |
+|                     |   |                                                          |   |
+|                     |   |  [-] MISSING / CRITICAL (Red)                            |   |
+|  [Settings]         |   |      • Kubernetes                                        |   |
+|                     |   +----------------------------------------------------------+   |
+|                     |                                                                  |
+|                     |                                                                  |
++---------------------+------------------------------------------------------------------+
+|                     |  INPUT AREA (Fixed Bottom)                                       |
+|                     |  +------------------------------------------------------------+  |
+|                     |  |  CV INPUT: [File] | Text       JD INPUT: [File] | Text     |  |
+|                     |  |  +----------------------+      +----------------------+    |  |
+|                     |  |  | [ICON] Upload CV     |      | [ICON] Upload JD     |    |  |
+|                     |  |  | "john_doe_cv.pdf"    |      | "senior_dev_jd.docx" |    |  |
+|                     |  |  +----------------------+      +----------------------+    |  |
+|                     |  |                                            [ ANALYZE > ]   |  |
+|                     |  +------------------------------------------------------------+  |
++---------------------+------------------------------------------------------------------+
 ```
 
 ## 2. Key UI Decisions
 
-### Split-Screen Input / Single View Analysis
-*   **Decision**: We chose a side-by-side layout for the input phase.
-*   **Rationale**: Recruiters often compare physical documents side-by-side. Mimicking this natural workflow reduces cognitive load. It allows the user to quickly verify that they have pasted/uploaded the correct corresponding documents before hitting analyze.
+### Chat-First Paradigm ("ChatGPT Style")
+*   **Decision**: The interface mimics a conversational AI agent rather than a static dashboard.
+*   **Rationale**: 
+    *   **Familiarity**: Users are accustomed to LLM interfaces (ChatGPT, Gemini).
+    *   **History**: It naturally handles multiple "sessions" or "analyses" as a history list on the left sidebar.
+    *   **Flow**: It reinforces the idea of an "Assistant" that you talk to (via uploading files) and it responds with data.
 
-### Hierarchy of Information (Score First, Details Second)
-*   **Decision**: The "Match Score" gauge is the most prominent visual element in the results section.
-*   **Rationale**: HR professionals are busy. They need an immediate "Go/No-Go" signal (The Score). Once their attention is captured by a good score (or bad one), they can then look to the right to see the *evidence* (Matched/Missing skills) providing the "Why" behind the score.
+### Unified Input Panel
+*   **Decision**: A fixed bottom panel containing both CV and JD inputs side-by-side.
+*   **Rationale**: 
+    *   **Comparison**: Keeps the context close. You define the "Problem" (JD) and the "Solution" (CV) in one view before asking the AI to solve it.
+    *   **Flexibility**: Toggles for "File" vs "Text" allow for quick copy-paste testing without needing to save dummy files.
 
-### Color-Coded Feedback (Traffic Light System)
-*   **Decision**: Using Green for matches, Yellow for partials/warnings, and Red for missing critical skills.
-*   **Rationale**: This leverages universal semantic associations. A recruiter scanning a list doesn't need to read every word; a sea of "Green" implies safety and competence, while "Red" alerts them to potential deal-breakers immediately.
+### The "Result Card" Micro-UI
+*   **Decision**: The analysis result is a rich HTML card embedded in the chat stream, not just plain text.
+*   **Rationale**:
+    *   **Scannability**: Uses color (`#10a37f` Green, `#ef4146` Red) to guide the eye immediately to strengths and weaknesses.
+    *   **Hierarchy**: The Match Score (large font) is the primary anchor, followed by the "Why" (Skills), followed by "Recommendations".
+
+### Dark Mode Aesthetics
+*   **Decision**: Defaulting to a high-contrast Dark Mode (Anthracite `#343541`, Black `#202123`).
+*   **Rationale**:
+    *   **Modern Feel**: Aligns with modern developer/recruiter tools.
+    *   **Readability**: High contrast text (`#ECECF1`) on dark backgrounds reduces eye strain during long reviewing sessions.
