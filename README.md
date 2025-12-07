@@ -1,83 +1,158 @@
 # HR CV-JD Match Assistant
 
-This project is an intelligent HR tool designed to streamline the recruitment process by evaluating how well a candidate's CV matches a specific Job Description (JD). It utilizes Natural Language Processing (NLP) to provide a semantic match score and detailed insights.
+An intelligent AI-powered system that analyzes the compatibility between Candidate CVs and Job Descriptions, providing detailed match scores, skill gap analysis, and actionable recommendations for both recruiters and candidates.
 
-## Tech Stack
+## 🚀 Features
 
--   **Backend**: Python, Django REST Framework
--   **Frontend**: React (Vite), Tailwind CSS
--   **AI/NLP**: spaCy, HuggingFace Transformers
--   **Database**: SQLite (Default)
+- **Semantic Matching**: Uses NLP to understand context beyond simple keyword matching
+- **Detailed Analysis**: Provides match scores, identified skills, missing requirements, and experience relevance
+- **Dual Recommendations**: Actionable insights for both candidates and recruiters
+- **Modern UI**: Chat-based interface with radial progress gauges and color-coded feedback
+- **Flexible Input**: Supports both file uploads (PDF, DOCX) and direct text input
 
-## Run Instructions
+## 📋 Tech Stack
+
+**Frontend:**
+- React 18
+- Vite
+- Axios
+- Lucide Icons
+
+**Backend:**
+- Django 5.1
+- Django REST Framework
+- SpaCy (NLP)
+- Python 3.8+
+
+## 🛠️ Installation & Setup
 
 ### Prerequisites
--   **Python 3.10+**
--   **Node.js 16+**
+- Python 3.8 or higher
+- Node.js 16 or higher
+- npm or yarn
 
-### 1. Backend Setup (Django)
+### Backend Setup
 
-1.  Open a terminal and navigate to the `backend` directory.
-2.  Create and activate a virtual environment (recommended):
-    ```bash
-    python -m venv venv
-    # Windows:
-    .\venv\Scripts\activate
-    # Mac/Linux:
-    source venv/bin/activate
-    ```
-3.  Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-    *Note: The first install may take a few minutes as it downloads large NLP models.*
-4.  Run database migrations:
-    ```bash
-    python manage.py migrate
-    ```
-5.  Start the backend server:
-    ```bash
-    python manage.py runserver
-    ```
-    The API is now running at `http://127.0.0.1:8000/`.
+1. Navigate to the backend directory:
+```bash
+cd backend
+```
 
-### 2. Frontend Setup (React)
+2. Create and activate a virtual environment:
+```bash
+# Windows
+python -m venv venv
+.\venv\Scripts\activate
 
-1.  Open a **new** terminal window and navigate to the `frontend` directory.
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-3.  Start the development server:
-    ```bash
-    npm run dev
-    ```
-4.  The application will launch in your default browser (usually at `http://localhost:5173`).
+# Mac/Linux
+python3 -m venv venv
+source venv/bin/activate
+```
 
----
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-## Example Input / Output
+4. Run migrations:
+```bash
+python manage.py migrate
+```
 
-### Scenario: Hiring a Senior Python Developer
+5. Start the development server:
+```bash
+python manage.py runserver
+```
 
-#### **Input: Job Description (JD)**
-> "We are looking for a Senior Backend Developer with at least 5 years of experience in Python and Django. Experience with AWS, REST APIs, and PostgreSQL is required. The ideal candidate should have strong problem-solving skills and mentorship experience."
+The API will be available at `http://127.0.0.1:8000/`
 
-#### **Input: Candidate CV**
-> "Jane Doe. Senior Software Engineer.
-> **Skills:** Python, Django, Flask, AWS (EC2, S3), PostgreSQL, Docker, Kubernetes, CI/CD.
-> **Experience:** 6 years developing scalable backend systems. Led a team of 4 remote developers. Architected RESTful APIs for fintech applications."
+### Frontend Setup
 
-#### **Output: Analysis Result**
+1. Navigate to the frontend directory:
+```bash
+cd frontend
+```
 
-*   **Match Score**: **88%** (High Match)
-*   **Key Matches**:
-    *   Python (Exact)
-    *   Django (Exact)
-    *   AWS (Exact)
-    *   PostgreSQL (Exact)
-    *   REST APIs (Semantic match with "RESTful APIs")
-*   **Missing / Gaps**:
-    *   *None explicit*, but system notes "Mentorship" is implied by "Led a team".
-*   **Recommendation**:
-    *   **For Recruiter**: "Strong candidate. Meets all core technical requirements and has leadership experience. Highly recommended for interview."
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5173/`
+
+## 📖 Usage
+
+1. Open your browser to `http://localhost:5173`
+2. You'll see a chat-based interface
+3. Upload or paste a **Job Description** (JD)
+4. Upload or paste a **Candidate CV**
+5. Click **Analyze**
+6. Review the comprehensive match analysis including:
+   - Match Score (with radial gauge)
+   - Strong Matches (skills found)
+   - Missing/Gap Skills
+   - Experience Relevance
+   - Recommendations for Candidate
+   - Recommendations for Recruiter
+
+## 🧪 Testing
+
+Run the automated API test:
+```bash
+cd backend
+python test_api_flow.py
+```
+
+## 📁 Project Structure
+
+```
+PBSE/
+├── backend/
+│   ├── api/              # Django REST API
+│   ├── core/             # Django settings
+│   ├── cvs/              # Uploaded CV storage
+│   ├── manage.py
+│   └── requirements.txt
+├── frontend/
+│   ├── src/
+│   │   ├── App.jsx       # Main React component
+│   │   ├── index.css     # Styles
+│   │   └── main.jsx      # Entry point
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
+├── AI-log.md
+├── ProblemStatement.md
+├── TestPlan.md
+├── UI-Sketch-Vision.md
+├── Release-Evolution-Plan.md
+└── instructions.md
+```
+
+## 🎨 UI Design Philosophy
+
+The interface uses a **dark theme** with:
+- **Green (#10A37F)**: Strong matches and positive indicators
+- **Yellow (#F1C40F)**: Moderate matches and warnings
+- **Red (#E74C3C)**: Missing skills and critical gaps
+
+## 🚦 Roadmap
+
+See [Release-Evolution-Plan.md](./Release-Evolution-Plan.md) for the full development roadmap.
+
+## 📝 License
+
+This project is open source and available under the MIT License.
+
+## 👥 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📧 Contact
+
+For questions or support, please open an issue on GitHub.

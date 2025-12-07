@@ -1,17 +1,14 @@
 from rest_framework import serializers
-from .models import JobDescription, CandidateCV, MatchAnalysis
+from .models import JobDescription, CV
+
 
 class JobDescriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobDescription
-        fields = '__all__'
+        fields = ['id', 'text', 'file', 'created_at']
 
-class CandidateCVSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CandidateCV
-        fields = '__all__'
 
-class MatchAnalysisSerializer(serializers.ModelSerializer):
+class CVSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MatchAnalysis
-        fields = '__all__'
+        model = CV
+        fields = ['id', 'text', 'file', 'created_at']

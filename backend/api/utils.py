@@ -75,22 +75,28 @@ def analyze_match(cv_text, jd_text):
         "recruiter_recommendations": recruiter_recs
     }
 
-def extract_text_from_file(file):
+def extract_text_from_file(file_obj):
     """
     Extracts text from a file object (PDF or DOCX).
     """
     text = ""
     try:
-        if file.name.endswith('.pdf'):
-            pdf_reader = PyPDF2.PdfReader(file)
+        file_name = getattr(file_obj, 'name', '')
+        
+        if file_name.endswith('.pdf'):
+            pdf_reader = PyPDF2.PdfReader(file_obj)
             for page in pdf_reader.pages:
                 text += page.extract_text() + "\n"
-        elif file.name.endswith('.docx'):
-            doc = docx.Document(file)
+        elif file_name.endswith('.docx'):
+            doc = docx.Document(file_obj)
             for para in doc.paragraphs:
                 text += para.text + "\n"
-        elif file.name.endswith('.txt'):
-            text = file.read().decode('utf-8')
+        elif file_name.endswith('.txt'):
+            content = file_obj.read()
+            if isinstance(content, bytes):
+                text = content.decode('utf-8')
+            else:
+                text = content
     except Exception as e:
         print(f"Error extracting text: {e}")
         return ""

@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import UploadJDView, UploadCVView, MatchView
+from . import views
 
 urlpatterns = [
-    path('upload-jd/', UploadJDView.as_view(), name='upload-jd'),
-    path('upload-cv/', UploadCVView.as_view(), name='upload-cv'),
-    path('match/', MatchView.as_view(), name='match'),
+    path('upload-jd/', views.upload_jd, name='upload_jd'),
+    path('upload-cv/', views.upload_cv, name='upload_cv'),
+    path('match/', views.match, name='match'),
 ]
