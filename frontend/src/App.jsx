@@ -214,7 +214,7 @@ function App() {
                                         <CheckCircle size={14} /> Strong Matches
                                     </h4>
                                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                        {result.matched_skills.map(s => (
+                                        {result.matched_skills?.map(s => (
                                             <span key={s} style={{
                                                 background: 'rgba(16, 163, 127, 0.15)', color: '#69f0ae',
                                                 border: '1px solid rgba(16, 163, 127, 0.3)',
@@ -223,7 +223,7 @@ function App() {
                                                 {s}
                                             </span>
                                         ))}
-                                        {result.matched_skills.length === 0 && <span style={{ color: '#666' }}>No direct matches.</span>}
+                                        {(!result.matched_skills || result.matched_skills.length === 0) && <span style={{ color: '#666' }}>No direct matches.</span>}
                                     </div>
                                 </div>
 
@@ -233,13 +233,13 @@ function App() {
                                         <AlertCircle size={14} /> Missing / Gaps
                                     </h4>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                        {result.missing_skills.map(s => (
+                                        {result.missing_skills?.map(s => (
                                             <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#ffcdd2' }}>
                                                 <span style={{ width: '4px', height: '4px', background: '#ef4146', borderRadius: '50%' }}></span>
                                                 <span>{s}</span>
                                             </div>
                                         ))}
-                                        {result.missing_skills.length === 0 && <span style={{ color: '#666' }}>No critical gaps found.</span>}
+                                        {(!result.missing_skills || result.missing_skills.length === 0) && <span style={{ color: '#666' }}>No critical gaps found.</span>}
                                     </div>
                                 </div>
                             </div>
