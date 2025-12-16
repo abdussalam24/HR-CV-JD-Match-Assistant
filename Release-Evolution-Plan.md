@@ -31,3 +31,4 @@
 *   **Predictive Analytics**: Track "Hired" candidates to learn which match characteristics actually correlated with successful employment, creating a feedback loop to refine the algorithm.
 *   **Candidate Portal**: A "Reverse Market" feature where candidates can upload their CV to see which open jobs in the databse they match with best.
 *   **Soft Skills Analysis**: Analyze cover letters and writing styles to infer soft skills like communication, leadership, and empathy.
+s

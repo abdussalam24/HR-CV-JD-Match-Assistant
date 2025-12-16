@@ -122,18 +122,19 @@ function App() {
             const jdData = new FormData();
             if (inputTypes.jd === 'file') jdData.append('file', jdFile);
             else jdData.append('text', jdText);
-            const jdReq = await axios.post('http://127.0.0.1:8000/api/upload-jd/', jdData, { headers });
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+            const jdReq = await axios.post(`${apiUrl}/api/upload-jd/`, jdData, { headers });
             jdId = jdReq.data.id;
 
             // Upload CV
             const cvData = new FormData();
             if (inputTypes.cv === 'file') cvData.append('file', cvFile);
             else cvData.append('text', cvText);
-            const cvReq = await axios.post('http://127.0.0.1:8000/api/upload-cv/', cvData, { headers });
+            const cvReq = await axios.post(`${apiUrl}/api/upload-cv/`, cvData, { headers });
             cvId = cvReq.data.id;
 
             // Match
-            const matchResponse = await axios.post('http://127.0.0.1:8000/api/match/', { jd_id: jdId, cv_id: cvId });
+            const matchResponse = await axios.post(`${apiUrl}/api/match/`, { jd_id: jdId, cv_id: cvId });
             const result = matchResponse.data;
 
             // Determine styling
